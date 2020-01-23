@@ -1,0 +1,8 @@
+<saida xmlns="http://www.teste.saida">
+   <age>37</age>
+   <spring>
+      <SaidaProperty>
+         <year>38</year>
+      </SaidaProperty>
+   </spring>
+</saida>

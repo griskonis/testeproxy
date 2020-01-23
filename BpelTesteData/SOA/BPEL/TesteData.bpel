@@ -1,0 +1,211 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jan 22 15:26:05 BRST 2020
+  Author:  AdrianGR
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="TesteData"
+               targetNamespace="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:ns1="http://www.teste.Datas"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ns2="http://www.teste.Entrada"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions" xmlns:ess="http://xmlns.oracle.com/scheduler"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap" xmlns:ns3="http://www.teste.saida">
+  <import namespace="http://www.teste.Datas" location="../Schemas/Data.xsd"
+          importType="http://www.w3.org/2001/XMLSchema"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" location="../WSDLs/TesteData.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="testeData" partnerLinkType="client:TesteData" myRole="TesteDataProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:TesteDataRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:TesteDataResponseMessage"/>
+    <variable name="DatasEntrada" element="ns1:Datas"/>
+    <variable name="retorno" element="ns1:Retorno"/>
+    <variable name="data1" type="xsd:date"/>
+    <variable name="data2" type="xsd:date"/>
+    <variable name="anoInicial" type="xsd:int"/>
+    <variable name="anofinal" type="xsd:int"/>
+    <variable name="Qtdanos" type="xsd:int"/>
+    <variable name="LimiteQtd" type="xsd:int"/>
+    <variable name="mesNiver" type="xsd:int"/>
+    <variable name="mesAtual" type="xsd:int"/>
+    <variable name="teste" type="xsd:int"/>
+    <variable name="anoRetorno" type="xsd:int"/>
+    <variable name="idade" type="xsd:int"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in TesteData.wsdl) -->
+    <receive name="receiveInput" partnerLink="testeData" portType="client:TesteData" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="AssignVar">
+      <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from>xp20:year-from-dateTime(xp20:current-dateTime())</from>
+        <to>$anofinal</to>
+      </copy>
+      <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from>xp20:year-from-dateTime($inputVariable.payload/ns2:dateOfBirth)</from>
+        <to>$anoInicial</to>
+      </copy>
+      <copy>
+        <from>$anofinal - $anoInicial</from>
+        <to>$Qtdanos</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to>$LimiteQtd</to>
+      </copy>
+      <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from>number(xp20:format-dateTime(xp20:current-date(), "[Y0001]")) -  number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[Y0001]"))</from>
+        <to>$idade</to>
+      </copy>
+    </assign>
+    <if name="IFLimiteAnos">
+      <documentation>
+        <![CDATA[Ano Superior 5]]>
+      </documentation>
+      <condition>$Qtdanos &gt;5</condition>
+      <assign name="Limite5Anos">
+        <copy>
+          <from>5</from>
+          <to>$Qtdanos</to>
+        </copy>
+        <copy>
+          <from>$anofinal -5</from>
+          <to>$anoInicial</to>
+        </copy>
+      </assign>
+      <else>
+        <documentation>
+          <![CDATA[Ano Inferior 5]]>
+        </documentation>
+        <empty name="Nao_Faz_Nada"/>
+      </else>
+    </if>
+    <if name="IfIdade">
+      <condition> number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[M01]")) &gt; number(xp20:format-dateTime(xp20:current-date(), "[M01]"))</condition>
+      <sequence name="Sequence1">
+        <assign name="AssignIdade">
+          <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+            <from>$anofinal - 1</from>
+            <to>$anofinal</to>
+          </copy>
+          <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+            <from>$idade - 1</from>
+            <to>$idade</to>
+          </copy>
+        </assign>
+      </sequence>
+      <else>
+        <sequence>
+          <if name="If1">
+            <condition> number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[D01]")) &gt; number(xp20:format-dateTime(xp20:current-date(), "[D01]"))</condition>
+            <sequence name="Sequence3">
+              <assign name="Assign2">
+                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                  <from>$anofinal - 1</from>
+                  <to>$anofinal</to>
+                </copy>
+                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                  <from>$idade - 1</from>
+                  <to>$idade</to>
+                </copy>
+              </assign>
+            </sequence>
+            <else>
+              <empty name="Nao_Faz_nada"/>
+            </else>
+          </if>
+        </sequence>
+      </else>
+    </if>
+    <assign name="AssignAnoFinalVariavel">
+      <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from>$anofinal</from>
+        <to>$anoRetorno</to>
+      </copy>
+      <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+        <from>$idade</from>
+        <to>$outputVariable.payload/ns3:age</to>
+      </copy>
+    </assign>
+    <if name="IfDataInicial">
+      <condition> number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[D01][M01][Y0001]")) &lt;= concat("2212",xp20:format-dateTime(xp20:current-date(), "[M01][Y0001]"))   </condition>
+      <empty name="Empty2"/>
+      <else>
+        <assign name="Assign1">
+          <copy>
+            <from>$anoInicial+1</from>
+            <to>$anoInicial</to>
+          </copy>
+        </assign>
+      </else>
+    </if>
+    <while name="While1">
+      <condition>$LimiteQtd &lt;= $Qtdanos </condition>
+      <assign name="AssignRetorno">
+        <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+          <from>$anoRetorno</from>
+          <to>$outputVariable.payload/ns3:spring/ns3:SaidaProperty[$LimiteQtd]/ns3:year</to>
+        </copy>
+        <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+          <from>$LimiteQtd +1</from>
+          <to>$LimiteQtd</to>
+        </copy>
+        <copy>
+          <from>$anoRetorno - 1</from>
+          <to>$anoRetorno</to>
+        </copy>
+      </assign>
+    </while>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="testeData" portType="client:TesteData" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

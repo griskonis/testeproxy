@@ -1,0 +1,29 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns1="http://www.teste.Entrada" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="ProxyRestData">RestService</doc>
+   <grammars>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:ns1="http://www.teste.Entrada" xmlns:ns2="http://www.teste.saida" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns3="http://www.teste.Datas">
+            <import namespace="http://www.teste.Entrada" schemaLocation="../Schemas/Entrada.xsd"/>
+        </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:ns1="http://www.teste.Entrada" xmlns:ns2="http://www.teste.saida" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns3="http://www.teste.Datas">
+            <import namespace="http://www.teste.saida" schemaLocation="../Schemas/Saida.xsd"/>
+        </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:ns1="http://www.teste.Entrada" xmlns:ns2="http://www.teste.saida" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns3="http://www.teste.Datas">
+            <xsd:import namespace="http://www.teste.Datas" schemaLocation="../Schemas/Data.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/">
+         <method name="POST" soa:wsdlOperation="process">
+            <request>
+               <representation mediaType="application/xml" element="cns:Entrada" xmlns:cns="http://www.teste.Entrada"/>
+               <representation mediaType="application/json" element="cns:Entrada" xmlns:cns="http://www.teste.Entrada"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/xml" element="cns:saida" xmlns:cns="http://www.teste.saida"/>
+               <representation mediaType="application/json" element="cns:saida" xmlns:cns="http://www.teste.saida"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>
