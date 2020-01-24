@@ -69,9 +69,10 @@
     <variable name="LimiteQtd" type="xsd:int"/>
     <variable name="mesNiver" type="xsd:int"/>
     <variable name="mesAtual" type="xsd:int"/>
-    <variable name="teste" type="xsd:int"/>
     <variable name="anoRetorno" type="xsd:int"/>
     <variable name="idade" type="xsd:int"/>
+    <variable name="dianiver" type="xsd:int"/>
+    <variable name="diahoje" type="xsd:int"/>
   </variables>
 
   <!-- 
@@ -129,7 +130,10 @@
         <empty name="Nao_Faz_Nada"/>
       </else>
     </if>
-    <if name="IfIdade">
+    <if name="IfMesIdade">
+      <documentation>
+        <![CDATA[Sim]]>
+      </documentation>
       <condition> number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[M01]")) &gt; number(xp20:format-dateTime(xp20:current-date(), "[M01]"))</condition>
       <sequence name="Sequence1">
         <assign name="AssignIdade">
@@ -144,23 +148,47 @@
         </assign>
       </sequence>
       <else>
+        <documentation>
+          <![CDATA[Nao]]>
+        </documentation>
         <sequence>
-          <if name="If1">
-            <condition> number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[D01]")) &gt; number(xp20:format-dateTime(xp20:current-date(), "[D01]"))</condition>
-            <sequence name="Sequence3">
-              <assign name="Assign2">
-                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
-                  <from>$anofinal - 1</from>
-                  <to>$anofinal</to>
-                </copy>
-                <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
-                  <from>$idade - 1</from>
-                  <to>$idade</to>
-                </copy>
-              </assign>
-            </sequence>
+          <assign name="AssignNiverDiaHoje">
+            <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+              <from>number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[D01]"))</from>
+              <to>$dianiver</to>
+            </copy>
+            <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+              <from>number(xp20:format-dateTime(xp20:current-date(), "[D01]"))</from>
+              <to>$diahoje</to>
+            </copy>
+          </assign>
+          <if name="IfDiaIdade">
+            <documentation>
+              <![CDATA[Sim]]>
+            </documentation>
+            <condition>$dianiver &gt; $diahoje</condition>
+            <assign name="AssignIdadeAno">
+              <copy ignoreMissingFromData="yes">
+                <from>$idade - 1</from>
+                <to>$idade</to>
+              </copy>
+              <copy ignoreMissingFromData="yes">
+                <from>$anofinal - 1</from>
+                <to>$anofinal</to>
+              </copy>
+            </assign>
             <else>
-              <empty name="Nao_Faz_nada"/>
+              <documentation>
+                <![CDATA[Nao]]>
+              </documentation>
+              <sequence>
+                <assign name="AssignAno">
+                  <copy ignoreMissingFromData="yes" bpelx:insertMissingToData="yes">
+                    <from>$anofinal - 1</from>
+                    <to>$anofinal</to>
+                  </copy>
+                </assign>
+              </sequence>
             </else>
           </if>
         </sequence>
@@ -178,9 +206,9 @@
     </assign>
     <if name="IfDataInicial">
       <condition> number(xp20:format-dateTime($inputVariable.payload/ns2:dateOfBirth, "[D01][M01][Y0001]")) &lt;= concat("2212",xp20:format-dateTime(xp20:current-date(), "[M01][Y0001]"))   </condition>
-      <empty name="Empty2"/>
+      <empty name="NaoFazNada"/>
       <else>
-        <assign name="Assign1">
+        <assign name="AssignAnoInicial">
           <copy>
             <from>$anoInicial+1</from>
             <to>$anoInicial</to>
