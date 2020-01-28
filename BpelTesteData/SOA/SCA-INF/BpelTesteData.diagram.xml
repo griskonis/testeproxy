@@ -29,12 +29,12 @@
         </dgm:operations>
     </dgm:gService>
     <dgm:gComponent name="TesteData">
-        <dgm:body borderWidth="2" arcRad="20" X="403" Y="96" width="130" height="61">
+        <dgm:body borderWidth="2" arcRad="20" X="293" Y="96" width="130" height="61">
             <dgm:borderColor r="69" g="113" b="140"/>
             <dgm:lightBgColor r="166" g="208" b="230"/>
             <dgm:darkBgColor r="99" g="162" b="201"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="393" Y="89" width="150" height="77">
+        <dgm:shadow arcRad="20" X="283" Y="89" width="150" height="77">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="testeData" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData#wsdl.interface(TesteData)"/>
@@ -43,14 +43,14 @@
     <dgm:gWireLink source="testeData_ep" target="TesteData/testeData" width="2">
         <dgm:gSegment X1="168" Y1="154" X2="192" Y2="154"/>
         <dgm:gSegment X1="192" Y1="154" X2="192" Y2="121"/>
-        <dgm:gSegment X1="192" Y1="121" X2="393" Y2="121"/>
+        <dgm:gSegment X1="192" Y1="121" X2="283" Y2="121"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="ProxyRestData" target="TesteData/testeData" width="2">
         <dgm:gSegment X1="168" Y1="36" X2="207" Y2="36"/>
         <dgm:gSegment X1="207" Y1="36" X2="207" Y2="121"/>
-        <dgm:gSegment X1="207" Y1="121" X2="393" Y2="121"/>
+        <dgm:gSegment X1="207" Y1="121" X2="283" Y2="121"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
