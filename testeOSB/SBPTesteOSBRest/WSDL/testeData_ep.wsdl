@@ -1,0 +1,48 @@
+<wsdl:definitions name="TesteData" targetNamespace="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:ns1="http://www.teste.Entrada" xmlns:ns2="http://www.teste.saida" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns3="http://www.teste.Datas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:documentation>
+        <abstractWSDL>http://vlaidbr-soaap01:11001/soa-infra/services/Sinistro/BpelTesteData!2.1/WSDLs/TesteData.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="TesteData">
+        <plnk:role name="TesteDataProvider" portType="client:TesteData"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.teste.Entrada" schemaLocation="XMLSchema_-346701142.xsd"/>
+        </schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.teste.saida" schemaLocation="XMLSchema_-1954637879.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.teste.Datas" schemaLocation="XMLSchema_482944391.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="TesteDataRequestMessage">
+        <wsdl:part name="payload" element="ns1:Entrada"/>
+    </wsdl:message>
+    <wsdl:message name="TesteDataResponseMessage">
+        <wsdl:part name="payload" element="ns2:saida"/>
+    </wsdl:message>
+    <wsdl:portType name="TesteData">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:TesteDataRequestMessage"/>
+            <wsdl:output message="client:TesteDataResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="TesteDataBinding" type="client:TesteData">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="testeData_ep">
+        <wsdl:port name="TesteData_pt" binding="client:TesteDataBinding">
+            <soap:address location="http://vlaidbr-soaap01:11001/soa-infra/services/Sinistro/BpelTesteData/testeData_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

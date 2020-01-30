@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.teste.saida" targetNamespace="http://www.teste.saida"
+     elementFormDefault="qualified">
+    <xsd:complexType name="saidaType">
+        <xsd:sequence>
+            <xsd:element name="age" nillable="true" type="xsd:int"/>
+            <xsd:element name="spring" type="ArrayType" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="saida" type="saidaType"/>
+    <xsd:complexType name="ArrayType">
+        <xsd:sequence>
+            <xsd:element name="SaidaProperty" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="year" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

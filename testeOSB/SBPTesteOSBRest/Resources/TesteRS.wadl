@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:inp1="http://www.teste.Entrada" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="TesteRS">RestService</doc>
+   <grammars>
+      <xsd:schema xmlns:tns="http://xmlns.oracle.com/TesteOSBRest/SBPTesteOSBRest/OSBTeste" xmlns:inp1="http://www.teste.Entrada" xmlns:inp2="http://www.teste.saida" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <xsd:import namespace="http://www.teste.Entrada" schemaLocation="../Entrada.xsd"/>
+        </xsd:schema>
+      <xsd:schema xmlns:tns="http://xmlns.oracle.com/TesteOSBRest/SBPTesteOSBRest/OSBTeste" xmlns:inp1="http://www.teste.Entrada" xmlns:inp2="http://www.teste.saida" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+            <xsd:import namespace="http://www.teste.saida" schemaLocation="../Saida.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/">
+         <method name="POST" soa:wsdlOperation="niverSpring">
+            <request>
+               <representation mediaType="application/json" element="cns:Entrada" xmlns:cns="http://www.teste.Entrada"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/xml" element="cns:saida" xmlns:cns="http://www.teste.saida"/>
+               <representation mediaType="application/json" element="cns:saida" xmlns:cns="http://www.teste.saida"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>

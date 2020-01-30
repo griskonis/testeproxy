@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.teste.Datas" targetNamespace="http://www.teste.Datas"
+     elementFormDefault="qualified">
+    <xsd:complexType name="DatasType">
+        <xsd:sequence>
+            <xsd:element name="dateNiver" nillable="true" type="xsd:date"/>
+            <xsd:element name="dateToday" nillable="true" type="xsd:date"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="Datas" type="DatasType"/>
+    <xsd:complexType name="RetornoType">
+        <xsd:sequence>
+            <xsd:element name="retorno" nillable="true" type="xsd:int"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="Retorno" type="RetornoType"/>
+</xsd:schema>

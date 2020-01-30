@@ -1,0 +1,1 @@
+http://vlaidbr-soaap01:11003/soa-infra/resources/Sinistro/BpelTesteData/ProxyRestData/

@@ -1,0 +1,28 @@
+<wsdl:definitions name="TesteData" targetNamespace="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/BpelTesteData/BpelTesteData/TesteData" xmlns:ns1="http://www.teste.Entrada" xmlns:ns2="http://www.teste.saida" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns3="http://www.teste.Datas">
+    <plnk:partnerLinkType name="TesteData">
+        <plnk:role name="TesteDataProvider" portType="client:TesteData"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.teste.Entrada" schemaLocation="Schemas/Entrada.xsd"/>
+        </schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.teste.saida" schemaLocation="Schemas/Saida.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.teste.Datas" schemaLocation="Schemas/Data.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="TesteDataRequestMessage">
+        <wsdl:part name="payload" element="ns1:Entrada"/>
+    </wsdl:message>
+    <wsdl:message name="TesteDataResponseMessage">
+        <wsdl:part name="payload" element="ns2:saida"/>
+    </wsdl:message>
+    <wsdl:portType name="TesteData">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:TesteDataRequestMessage"/>
+            <wsdl:output message="client:TesteDataResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
